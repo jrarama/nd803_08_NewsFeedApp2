@@ -1,7 +1,7 @@
 package com.jprarama.newsfeedapp.adapter;
 
 import android.content.Context;
-import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,22 +11,32 @@ import android.widget.TextView;
 import com.jprarama.newsfeedapp.R;
 import com.jprarama.newsfeedapp.model.FeedEntry;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by joshua on 6/7/16.
  */
 public class FeedEntryAdapter extends ArrayAdapter<FeedEntry> {
 
-    private static final int MAX_SUMMARY_LENGTH = 150;
+    private static final String DATE_FORMAT_FROM = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    private static final String TARGET_DATE_FORMAT = "EEE, MMM d, yyyy HH:mm";
+    private static final String TAG = FeedEntryAdapter.class.getName();
+
+    private SimpleDateFormat formatter;
+    private SimpleDateFormat formatterTo;
 
     private static class ViewHolder {
         TextView tvTitle;
         TextView tvPublished;
         TextView tvLink;
-        TextView tvSummary;
     }
 
     public FeedEntryAdapter(Context context, int resource) {
         super(context, resource);
+        formatter = new SimpleDateFormat(DATE_FORMAT_FROM);
+        formatterTo = new SimpleDateFormat(TARGET_DATE_FORMAT);
     }
 
     @Override
@@ -37,11 +47,10 @@ public class FeedEntryAdapter extends ArrayAdapter<FeedEntry> {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.feed_detail_item, parent, false);
+            convertView = inflater.inflate(R.layout.feed_entry_item, parent, false);
 
             viewHolder.tvLink = (TextView) convertView.findViewById(R.id.tvLink);
             viewHolder.tvPublished = (TextView) convertView.findViewById(R.id.tvPublished);
-            viewHolder.tvSummary = (TextView) convertView.findViewById(R.id.tvSummary);
             viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
             convertView.setTag(viewHolder);
         } else {
@@ -49,17 +58,16 @@ public class FeedEntryAdapter extends ArrayAdapter<FeedEntry> {
         }
 
         viewHolder.tvLink.setText(entry.getUrl());
-        viewHolder.tvPublished.setText(entry.getUpdated());
-        viewHolder.tvTitle.setText(entry.getTitle());
-
-        String summary = entry.getSnippet();
-        summary = summary == null ? getContext().getString(R.string.no_summary) :
-                Html.fromHtml(entry.getSnippet().replaceAll("<img.+/(img)*>", "")).toString();
-
-        if (summary.length() > MAX_SUMMARY_LENGTH) {
-            summary = summary.substring(0, MAX_SUMMARY_LENGTH) + " ...";
+        String updated = entry.getUpdated();
+        try {
+            Date date = formatter.parse(updated);
+            updated = formatterTo.format(date);
+        } catch (ParseException e) {
+            Log.w(TAG, e.toString());
         }
-        viewHolder.tvSummary.setText(summary);
+
+        viewHolder.tvPublished.setText(updated);
+        viewHolder.tvTitle.setText(entry.getTitle());
 
         return convertView;
     }

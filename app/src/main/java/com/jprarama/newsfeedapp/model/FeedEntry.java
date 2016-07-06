@@ -14,20 +14,16 @@ public class FeedEntry implements Parcelable {
 
     private String updated;
 
-    private String snippet;
-
-    public FeedEntry(String title, String url, String updated, String snippet) {
+    public FeedEntry(String title, String url, String updated) {
         this.title = title;
         this.url = url;
         this.updated = updated;
-        this.snippet = snippet;
     }
 
     protected FeedEntry(Parcel in) {
         title = in.readString();
         url = in.readString();
         updated = in.readString();
-        snippet = in.readString();
     }
 
     public static final Creator<FeedEntry> CREATOR = new Creator<FeedEntry>() {
@@ -52,7 +48,6 @@ public class FeedEntry implements Parcelable {
         parcel.writeString(title);
         parcel.writeString(url);
         parcel.writeString(updated);
-        parcel.writeString(snippet);
     }
 
     public String getTitle() {
@@ -79,21 +74,4 @@ public class FeedEntry implements Parcelable {
         this.updated = updated;
     }
 
-    public String getSnippet() {
-        return snippet;
-    }
-
-    public void setSnippet(String snippet) {
-        this.snippet = snippet;
-    }
-
-    @Override
-    public String toString() {
-        return "FeedEntry{" +
-                "title='" + title + '\'' +
-                ", url='" + url + '\'' +
-                ", updated='" + updated + '\'' +
-                ", snippet='" + snippet + '\'' +
-                '}';
-    }
 }

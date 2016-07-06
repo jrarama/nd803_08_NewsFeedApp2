@@ -15,4 +15,5 @@
     <string name="pref_feed_query_summary">Set the topic you want to display in feeds</string>
     <string name="menu_settings_title">Settings</string>
     <string name="feed_entries">Feed Entries</string>
+    <string name="api_key">test</string>
 </resources>
