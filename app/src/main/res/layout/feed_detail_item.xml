@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/listPadding">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:textStyle="bold"
+        android:text="@string/dummy_feed_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvLink"
+        android:text="@string/dummy_feed_url"
+        android:textStyle="italic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvPublished"
+        android:layout_marginTop="@dimen/listPadding"
+        android:text="@string/dummy_published"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvSummary"
+        android:layout_marginTop="@dimen/textPadding"
+        android:text="@string/dummy_summary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
