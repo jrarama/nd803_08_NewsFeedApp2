@@ -19,11 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.FeedDetailActivity"
-            android:label="@string/feed_entries"
-            android:configChanges="orientation|screenSize"
-            android:parentActivityName=".activity.MainActivity">
-        </activity>
         <activity android:name=".activity.SettingsActivity"
             android:configChanges="orientation|screenSize"
             android:parentActivityName=".activity.MainActivity">
