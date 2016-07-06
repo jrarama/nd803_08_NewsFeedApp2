@@ -25,10 +25,9 @@ import java.util.ArrayList;
 
 public class FeedDetailActivity extends AppCompatActivity {
 
+    private static final String TAG = FeedDetailActivity.class.getName();
     public static final String VIEW_FEEDS_ACTION = "view_feeds";
     public static final String FEED_URL_KEY = "feed_url";
-
-    private static final String TAG = FeedDetailActivity.class.getName();
 
     private TextView tvNoResults;
     private ListView listView;
@@ -36,9 +35,7 @@ public class FeedDetailActivity extends AppCompatActivity {
 
     private FeedEntryAdapter adapter;
     private ArrayList<FeedEntry> feedEntries;
-
     private String feedUrl;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +45,11 @@ public class FeedDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tvNoResults = (TextView) findViewById(R.id.tvNoResults);
-        listView = (ListView) findViewById(R.id.listView);
-
         adapter = new FeedEntryAdapter(this, R.layout.feed_detail_item);
         adapter.setNotifyOnChange(false);
-        listView.setAdapter(adapter);
 
+        listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {

@@ -29,7 +29,6 @@ public class FeedUrlFetcher extends AsyncTask<String, Void, ArrayList<FeedUrl>> 
 
     private static final int STATUS_OK = 200;
 
-
     private ListConsumer<FeedUrl> consumer;
     private Exception catchedException;
 

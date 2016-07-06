@@ -15,12 +15,16 @@ import com.jprarama.newsfeedapp.model.FeedEntry;
  * Created by joshua on 6/7/16.
  */
 public class FeedEntryAdapter extends ArrayAdapter<FeedEntry> {
+
+    private static final int MAX_SUMMARY_LENGTH = 150;
+
     private static class ViewHolder {
         TextView tvTitle;
         TextView tvPublished;
         TextView tvLink;
         TextView tvSummary;
     }
+
     public FeedEntryAdapter(Context context, int resource) {
         super(context, resource);
     }
@@ -52,8 +56,8 @@ public class FeedEntryAdapter extends ArrayAdapter<FeedEntry> {
         summary = summary == null ? getContext().getString(R.string.no_summary) :
                 Html.fromHtml(entry.getSnippet().replaceAll("<img.+/(img)*>", "")).toString();
 
-        if (summary.length() > 150) {
-            summary = summary.substring(0, 150) + " ...";
+        if (summary.length() > MAX_SUMMARY_LENGTH) {
+            summary = summary.substring(0, MAX_SUMMARY_LENGTH) + " ...";
         }
         viewHolder.tvSummary.setText(summary);
 

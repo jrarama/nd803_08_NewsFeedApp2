@@ -2,11 +2,17 @@
     <string name="app_name">News Feed App</string>
     <string name="dummy_feed_title">Sample Feed Title</string>
     <string name="dummy_feed_url">http://www.example.com/feeds</string>
+    <string name="default_feed_query">programming</string>
     <string name="feed_query_not_set">Feed query not set</string>
-    <string name="no_results">No results for query</string>
+    <string name="no_results" formatted="false">No results for query: \"%s\". Change the Feed Query in the settings.</string>
     <string name="dummy_published">Published on July 4, 2016</string>
     <string name="dummy_summary">This is a sample summary of the feed</string>
-    <string name="no_summary">No summary provided</string>
+    <string name="no_summary">&lt;No summary provided&gt;</string>
     <string name="error_fetching_data">Error fetching data from server</string>
     <string name="loading_data">Loading data ...</string>
+    <string name="pref_feed_query">Feed Query </string>
+    <string name="pref_feed_query_key">feed_query</string>
+    <string name="pref_feed_query_summary">Set the topic you want to display in feeds</string>
+    <string name="menu_settings_title">Settings</string>
+    <string name="feed_entries">Feed Entries</string>
 </resources>

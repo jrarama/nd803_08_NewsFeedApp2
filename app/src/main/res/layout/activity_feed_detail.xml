@@ -9,7 +9,6 @@
     <TextView
         android:id="@+id/tvNoResults"
         android:padding="@dimen/listPadding"
-        style="@style/DefaultText"
         android:text="@string/loading_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

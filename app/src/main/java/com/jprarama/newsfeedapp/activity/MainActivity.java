@@ -6,6 +6,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,12 +19,12 @@ import com.jprarama.newsfeedapp.adapter.FeedUrlAdapter;
 import com.jprarama.newsfeedapp.consumer.ListConsumer;
 import com.jprarama.newsfeedapp.model.FeedUrl;
 import com.jprarama.newsfeedapp.task.FeedUrlFetcher;
+import com.jprarama.newsfeedapp.util.Utilities;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getName();
-    private static final String DEFAULT_QUERY = "programming";
 
     private TextView tvNoQuery;
     private ListView listView;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private FeedUrlAdapter adapter;
     private ArrayList<FeedUrl> feedUrls;
     private SwipeRefreshLayout refreshLayout;
+    private String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         tvNoQuery = (TextView) findViewById(R.id.tvNoQuery);
-        listView = (ListView) findViewById(R.id.listView);
 
         adapter = new FeedUrlAdapter(this, R.layout.feed_url_item);
         adapter.setNotifyOnChange(false);
+        listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
         final Activity activity = this;
@@ -69,8 +72,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadFeedUrls() {
-        String query = DEFAULT_QUERY;
-        final Activity activity = this;
+        query = Utilities.getPreference(this, getString(R.string.pref_feed_query_key),
+                getString(R.string.default_feed_query));
+
         new FeedUrlFetcher(new ListConsumer<FeedUrl>() {
             @Override
             public void consume(ArrayList<FeedUrl> list) {
@@ -82,7 +86,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void consumeException(Exception e) {
-                Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
+                refreshLayout.setRefreshing(false);
+                Log.w(TAG, "Error: " + e.getMessage());
+                tvNoQuery.setText(getString(R.string.error_fetching_data));
+                tvNoQuery.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
 
                 refreshLayout.setRefreshing(false);
             }
@@ -96,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (feedUrls.isEmpty()) {
-            tvNoQuery.setText(getString(R.string.no_results));
+            tvNoQuery.setText(String.format(getString(R.string.no_results), query));
             tvNoQuery.setVisibility(View.VISIBLE);
             listView.setVisibility(View.GONE);
             return;
@@ -110,4 +118,21 @@ public class MainActivity extends AppCompatActivity {
         listView.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
